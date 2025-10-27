@@ -2,12 +2,17 @@ import OpenAI from 'openai';
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
 export async function POST(req) {
-  const { brandName, style } = await req.json();
-  const prompt = `Design a modern logo for ${brandName} in ${style} style`;
-  const response = await openai.images.generate({
-    model: 'dall-e-3',
-    prompt,
-    size: '1024x1024'
+  const { brandName } = await req.json();
+  const prompt = `Generate 4 logo image URLs for brand name: ${brandName}. Output as JSON: { "logos": ["url1","url2"] }`;
+
+  const res = await openai.chat.completions.create({
+    model: 'gpt-4o-mini',
+    messages: [{ role: 'user', content: prompt }]
   });
-  return new Response(JSON.stringify({ url: response.data[0].url }), { status: 200 });
+
+  try {
+    return new Response(res.choices[0].message.content, { status: 200 });
+  } catch {
+    return new Response(JSON.stringify({ logos: [] }), { status: 200 });
+  }
 }
