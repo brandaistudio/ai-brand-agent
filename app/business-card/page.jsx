@@ -1,30 +1,32 @@
 'use client';
-import { Stage, Layer, Rect, Text } from 'react-konva';
-import { useState } from 'react';
-import jsPDF from 'jspdf';
+import { jsPDF } from 'jspdf';
+import { useEffect, useState } from 'react';
 
-export default function BusinessCardPage() {
-  const [name, setName] = useState('NovaBrand');
-  const [bgColor, setBgColor] = useState('#ffffff');
-  const [textColor, setTextColor] = useState('#000000');
+export default function BusinessCard() {
+  const [brandName, setBrandName] = useState('');
+  const [logo, setLogo] = useState('');
 
-  const downloadPDF = () => {
-    const pdf = new jsPDF({ orientation: 'landscape' });
-    const canvas = document.getElementById('card-canvas');
-    pdf.addImage(canvas.toDataURL(), 'PNG', 0, 0, 210, 100);
-    pdf.save('business-card.pdf');
+  useEffect(() => {
+    setBrandName(localStorage.getItem('selectedBrandName') || '');
+    setLogo(localStorage.getItem('selectedLogo') || '');
+  }, []);
+
+  const generatePDF = () => {
+    const doc = new jsPDF({ orientation: 'landscape' });
+    doc.setFontSize(22);
+    doc.text(brandName, 20, 20);
+    if (logo) doc.addImage(logo, 'PNG', 20, 30, 60, 60);
+    doc.save(`${brandName}_business_card.pdf`);
   };
 
   return (
-    <div className="p-4 max-w-md mx-auto flex flex-col gap-4">
-      <input value={name} onChange={e=>setName(e.target.value)} placeholder="Brand Name" className="p-2 border rounded"/>
-      <Stage width={500} height={300} id="card-canvas">
-        <Layer>
-          <Rect width={500} height={300} fill={bgColor}/>
-          <Text text={name} x={50} y={50} fontSize={24} fill={textColor}/>
-        </Layer>
-      </Stage>
-      <button onClick={downloadPDF} className="bg-blue-600 text-white p-2 rounded">Download PDF</button>
+    <div className="max-w-xl mx-auto p-6 flex flex-col gap-4 items-center">
+      <h2 className="text-2xl font-bold">Business Card</h2>
+      <p>Brand: {brandName}</p>
+      {logo && <img src={logo} alt="Logo" className="w-32 h-32 object-contain" />}
+      <button onClick={generatePDF} className="bg-primary px-4 py-2 rounded text-white mt-4">
+        Download PDF
+      </button>
     </div>
   );
 }
