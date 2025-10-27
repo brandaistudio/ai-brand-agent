@@ -2,10 +2,7 @@ import Navbar from '../components/Navbar';
 import Footer from '../components/Footer';
 import '../styles/globals.css';
 
-export const metadata = {
-  title: 'NovaBrand',
-  description: 'AI Brand Agent'
-};
+export const metadata = { title: 'NovaBrand', description: 'AI Brand Agent' };
 
 export default function RootLayout({ children }) {
   return (
