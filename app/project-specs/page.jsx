@@ -2,21 +2,24 @@
 import { useForm } from 'react-hook-form';
 import { useRouter } from 'next/navigation';
 
-export default function ProjectSpecsPage() {
+export default function ProjectSpecs() {
   const { register, handleSubmit } = useForm();
   const router = useRouter();
 
-  const onSubmit = data => {
-    router.push(`/brand-names?projectName=${data.projectName}&description=${data.description}&industry=${data.industry}&audience=${data.audience}`);
+  const onSubmit = (data) => {
+    localStorage.setItem('projectSpecs', JSON.stringify(data));
+    router.push('/brand-names');
   };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="p-4 max-w-md mx-auto flex flex-col gap-4">
-      <input {...register('projectName')} placeholder="Project Name" className="p-2 border rounded"/>
-      <textarea {...register('description')} placeholder="Project Description" className="p-2 border rounded"/>
-      <input {...register('industry')} placeholder="Industry" className="p-2 border rounded"/>
-      <input {...register('audience')} placeholder="Target Audience" className="p-2 border rounded"/>
-      <button type="submit" className="bg-blue-600 text-white p-2 rounded">Generate Names</button>
-    </form>
+    <div className="max-w-xl mx-auto p-6">
+      <h2 className="text-2xl font-bold mb-4">Enter Project Specs</h2>
+      <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-4">
+        <input {...register('brandIndustry')} placeholder="Industry" className="input" required />
+        <input {...register('targetAudience')} placeholder="Target Audience" className="input" required />
+        <input {...register('keywords')} placeholder="Keywords (optional)" className="input" />
+        <button type="submit" className="bg-primary px-4 py-2 rounded text-white">Generate Names</button>
+      </form>
+    </div>
   );
 }
