@@ -1,0 +1,115 @@
+/* Tailwind base imports */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* -------------------- */
+/* Custom Fonts & Base  */
+/* -------------------- */
+body {
+  font-family: 'Inter', sans-serif;
+  background-color: #f9fafb; /* Light mode background */
+  color: #111827; /* Light mode text */
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+/* -------------------- */
+/* Dark Mode */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: #111827;
+    color: #f9fafb;
+  }
+}
+
+/* -------------------- */
+/* Links */
+a {
+  color: #2563eb; /* Tailwind blue-600 */
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a:hover {
+  color: #1e40af; /* Tailwind blue-800 */
+}
+
+/* -------------------- */
+/* Buttons */
+button {
+  @apply px-4 py-2 rounded-lg font-medium transition-all;
+  background-color: #2563eb;
+  color: white;
+}
+
+button:hover {
+  background-color: #1e40af;
+}
+
+/* -------------------- */
+/* Inputs & Textareas */
+input, textarea {
+  @apply border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500 transition;
+  background-color: #ffffff;
+  color: #111827;
+}
+
+.dark input, .dark textarea {
+  background-color: #1f2937;
+  border-color: #374151;
+  color: #f9fafb;
+}
+
+/* -------------------- */
+/* Cards */
+.card {
+  @apply p-4 rounded-xl shadow-md bg-white dark:bg-gray-800 transition;
+}
+
+/* -------------------- */
+/* Headings */
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 700;
+  color: inherit;
+}
+
+/* -------------------- */
+/* Form Container */
+form {
+  @apply flex flex-col gap-4;
+}
+
+/* -------------------- */
+/* Utilities */
+.text-primary {
+  color: #2563eb;
+}
+
+.bg-primary {
+  background-color: #2563eb;
+  color: white;
+}
+
+.bg-primary-dark {
+  background-color: #1e40af;
+  color: white;
+}
+
+/* -------------------- */
+/* Dark Mode Toggle Utility */
+body.dark {
+  --bg-primary: #2563eb;
+  --bg-primary-dark: #1e40af;
+  --text-primary: #f9fafb;
+}
+
+/* -------------------- */
+/* Responsive adjustments */
+@media (max-width: 640px) {
+  body {
+    font-size: 14px;
+  }
+  button {
+    width: 100%;
+  }
+}
